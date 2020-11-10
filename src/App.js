@@ -2,7 +2,7 @@ import "./App.css";
 
 import { useState } from "react";
 import CardUser from "./components/card-user";
-import { Button, Input } from "antd";
+import { Button, Input, Switch } from "antd";
 
 const App = () => {
   const [user, setUser] = useState("");
@@ -10,6 +10,14 @@ const App = () => {
   const [input, setInput] = useState("");
 
   const URL_GITHUB_API = `https://api.github.com/users/${input}`;
+
+  const actived = () => {
+    if (active === false) {
+      setActive(true);
+    } else {
+      setActive(false);
+    }
+  };
 
   const handleToggle = () => {
     if (input) {
@@ -20,31 +28,27 @@ const App = () => {
     }
   };
 
-  const actived = () => {
-    if (active === false) {
-      setActive(true);
-    } else {
-      setActive(false);
-    }
-  };
-
   return (
     <div className="App">
       <div>
         <Input
-          style={{ width: 200, marginBottom: 30 }}
+          style={{ width: 200, marginBottom: 30, marginTop: 30 }}
           placeholder="Ex. brunnolorran"
           onChange={(e) => setInput(e.target.value)}
         />
-        <Button className="topbar" type="primary" onClick={handleToggle}>
+        <Button type="primary" onClick={handleToggle}>
           Pesquisar usuário GitHub
         </Button>
       </div>
 
       {user && (
-        <Button type="secondy" onClick={actived}>
-          ocultar/mostrar
-        </Button>
+        <Switch
+          style={{ marginBottom: 10 }}
+          defaultChecked
+          checkedChildren="Ocultar"
+          unCheckedChildren="Mostrar"
+          onChange={actived}
+        />
       )}
 
       {active && (
