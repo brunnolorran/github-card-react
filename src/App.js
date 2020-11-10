@@ -2,6 +2,8 @@ import "./App.css";
 
 import { useState, useEffect } from "react";
 
+import CardUser from "./components/card-user";
+
 const App = () => {
   const [user, setUser] = useState("");
   const [active, setActive] = useState(false);
@@ -26,13 +28,14 @@ const App = () => {
     <div className="App">
       <header className="App-header">
         <h1>GitHub Card</h1>
+
         {active && (
-          <div>
-            <img src={user.avatar_url} alt={`Foto de ${user.name}`} />
-            <p>{user.name}</p>
-            <p>{user.location}</p>
-            <a href={user.html_url}>Link</a>
-          </div>
+          <CardUser
+            image={user.avatar_url}
+            name={user.name}
+            location={user.location}
+            site={user.html_url}
+          />
         )}
         <button onClick={actived}>Mostrar/Ocultar</button>
       </header>
