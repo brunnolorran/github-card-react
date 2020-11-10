@@ -1,19 +1,23 @@
 import "./App.css";
 
-import { useState, useEffect } from "react";
-
+import { useState } from "react";
 import CardUser from "./components/card-user";
-
-import { Button } from "antd";
+import { Button, Input } from "antd";
 
 const App = () => {
   const [user, setUser] = useState("");
   const [active, setActive] = useState(false);
+  const [input, setInput] = useState("");
+
+  const URL_GITHUB_API = `https://api.github.com/users/${input}`;
 
   const handleToggle = () => {
-    fetch("https://api.github.com/users/brunnolorran").then((response) =>
-      response.json().then((data) => setUser(data))
-    );
+    if (input) {
+      fetch(URL_GITHUB_API).then((response) =>
+        response.json().then((data) => setUser(data))
+      );
+      setActive(true);
+    }
   };
 
   const actived = () => {
@@ -24,15 +28,25 @@ const App = () => {
     }
   };
 
-  useEffect(handleToggle);
-
   return (
     <div className="App">
       <div>
-        <Button className="topbar" type="primary" onClick={actived}>
-          Mostrar/Ocultar
+        <Input
+          style={{ width: 200, marginBottom: 30 }}
+          placeholder="Ex. brunnolorran"
+          onChange={(e) => setInput(e.target.value)}
+        />
+        <Button className="topbar" type="primary" onClick={handleToggle}>
+          Pesquisar usuário GitHub
         </Button>
       </div>
+
+      {user && (
+        <Button type="secondy" onClick={actived}>
+          ocultar/mostrar
+        </Button>
+      )}
+
       {active && (
         <CardUser
           image={user.avatar_url}
